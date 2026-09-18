@@ -1,0 +1,6 @@
+fastapi>=0.115
+mangum>=0.17
+pymongo[srv]>=4.7
+python-dotenv>=1.0
+pyjwt>=2.8
+bcrypt>=4.1

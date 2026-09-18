@@ -1,0 +1,38 @@
+"""main fastapi app for the banking project."""
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from backend.app.controllers.account_controller import router as account_router
+from backend.app.controllers.auth_controller import router as auth_router
+from backend.app.controllers.dashboard_controller import router as dashboard_router
+from backend.app.controllers.insights_controller import router as insights_router
+from backend.app.controllers.transaction_controller import router as transaction_router
+
+
+app = FastAPI(title="Banking App API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://group1-banking-app-frontend.s3-website-us-east-1.amazonaws.com",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# add feature controllers to the main api app
+app.include_router(account_router)
+app.include_router(auth_router)
+app.include_router(dashboard_router)
+app.include_router(insights_router)
+app.include_router(transaction_router)
+
+
+@app.get("/health", tags=["Health"])
+def health() -> dict:
+    # quick way to check that the api is running
+    return {"status": "ok"}
